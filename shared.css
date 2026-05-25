@@ -1,0 +1,204 @@
+/* ════════════════════════════════════════════════════════════
+   Dashify — Shared Neumorphism Design System
+   Background: #E4E9F2  |  Fonts: Varela Round + Nunito Sans
+════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:              #E4E9F2;
+  --sd:              rgba(163, 177, 198, 0.60);   /* shadow dark  */
+  --sl:              rgba(255, 255, 255, 0.80);   /* shadow light */
+  --txt:             #2D3561;
+  --muted:           #6B7A8D;
+  --accent-blue:     #4B89DC;
+  --accent-green:    #2EC09B;
+  --accent-orange:   #F4904D;
+  --accent-purple:   #9C42F5;
+}
+
+/* ── Base ──────────────────────────────────────────────────── */
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5 { font-family: 'Varela Round', sans-serif; }
+
+/* ── Neumorphism utilities ─────────────────────────────────── */
+.neu-raise {
+  background: var(--bg);
+  box-shadow: 6px 6px 18px var(--sd), -6px -6px 18px var(--sl);
+  border-radius: 16px;
+}
+.neu-raise-sm {
+  background: var(--bg);
+  box-shadow: 4px 4px 10px var(--sd), -4px -4px 10px var(--sl);
+  border-radius: 12px;
+}
+.neu-inset {
+  background: var(--bg);
+  box-shadow: inset 4px 4px 10px var(--sd), inset -4px -4px 10px var(--sl);
+  border-radius: 12px;
+}
+.neu-btn {
+  background: var(--bg);
+  box-shadow: 4px 4px 10px var(--sd), -4px -4px 10px var(--sl);
+  border-radius: 10px;
+  transition: box-shadow .15s ease, transform .15s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: 'Nunito Sans', sans-serif;
+}
+.neu-btn:hover  { box-shadow: 2px 2px 6px var(--sd), -2px -2px 6px var(--sl); }
+.neu-btn:active { box-shadow: inset 3px 3px 8px var(--sd), inset -3px -3px 8px var(--sl); transform: scale(.98); }
+.neu-btn:focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 2px; }
+.neu-btn-active {
+  box-shadow: inset 4px 4px 10px var(--sd), inset -4px -4px 10px var(--sl) !important;
+  color: var(--accent-blue) !important;
+}
+
+/* ── Sidebar ───────────────────────────────────────────────── */
+.sidebar {
+  width: 256px;
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 28px 14px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 50;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all .2s ease;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 13.5px;
+  margin-bottom: 3px;
+  text-decoration: none;
+}
+.nav-item:hover { color: var(--txt); }
+.nav-item.active {
+  box-shadow: inset 4px 4px 10px var(--sd), inset -4px -4px 10px var(--sl);
+  color: var(--accent-blue);
+}
+.nav-item svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+/* ── Progress ──────────────────────────────────────────────── */
+.prog-track {
+  height: 6px;
+  border-radius: 10px;
+  background: var(--bg);
+  box-shadow: inset 2px 2px 5px var(--sd), inset -2px -2px 5px var(--sl);
+  overflow: hidden;
+}
+.prog-fill { height: 100%; border-radius: 10px; }
+
+/* ── Search input ──────────────────────────────────────────── */
+.neu-input {
+  background: var(--bg);
+  box-shadow: inset 3px 3px 8px var(--sd), inset -3px -3px 8px var(--sl);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px 10px 40px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13.5px;
+  color: var(--txt);
+  outline: none;
+  width: 264px;
+}
+.neu-input::placeholder { color: var(--muted); }
+.neu-input:focus {
+  box-shadow: inset 4px 4px 10px var(--sd), inset -4px -4px 10px var(--sl),
+              0 0 0 2px rgba(75,137,220,.3);
+}
+
+/* ── Form input (full-width, settings) ─────────────────────── */
+.form-input {
+  background: var(--bg);
+  box-shadow: inset 3px 3px 8px var(--sd), inset -3px -3px 8px var(--sl);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  color: var(--txt);
+  outline: none;
+  width: 100%;
+  transition: box-shadow .2s ease;
+  resize: none;
+}
+.form-input::placeholder { color: var(--muted); }
+.form-input:focus {
+  box-shadow: inset 4px 4px 10px var(--sd), inset -4px -4px 10px var(--sl),
+              0 0 0 2px rgba(75,137,220,.3);
+}
+
+/* ── Table rows ────────────────────────────────────────────── */
+.t-row {
+  display: grid;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: 12px;
+  align-items: center;
+  font-size: 13.5px;
+  cursor: default;
+  transition: all .2s ease;
+}
+.t-row:hover { box-shadow: inset 3px 3px 8px var(--sd), inset -3px -3px 8px var(--sl); }
+
+/* ── Badge ─────────────────────────────────────────────────── */
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── Toggle switch ─────────────────────────────────────────── */
+.neu-toggle {
+  width: 48px;
+  height: 26px;
+  border-radius: 13px;
+  box-shadow: inset 3px 3px 7px var(--sd), inset -3px -3px 7px var(--sl);
+  position: relative;
+  cursor: pointer;
+  background: var(--bg);
+  flex-shrink: 0;
+  transition: all .2s ease;
+}
+.neu-toggle-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  transition: all .2s ease;
+  box-shadow: 2px 2px 5px rgba(0,0,0,.15);
+}
+.neu-toggle.on  .neu-toggle-thumb { right: 3px; background: linear-gradient(135deg,#7BAEFF,#4B89DC); }
+.neu-toggle.off .neu-toggle-thumb { left:  3px; background: linear-gradient(135deg,#B8C0CC,#9BA5B0); }
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; }
+::-webkit-scrollbar-track  { background: var(--bg); box-shadow: inset 2px 2px 5px var(--sd); }
+::-webkit-scrollbar-thumb  { background: rgba(163,177,198,.55); border-radius: 10px; }
+
+/* ── Reduced motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

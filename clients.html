@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashify — Clients</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&family=Varela+Round&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="shared.css"/>
+  <style>
+    .client-card { background:var(--bg); box-shadow:6px 6px 18px var(--sd),-6px -6px 18px var(--sl); border-radius:18px; padding:22px; transition:all .25s ease; cursor:pointer; }
+    .client-card:hover { box-shadow:8px 8px 22px var(--sd),-8px -8px 22px var(--sl); transform:translateY(-3px); }
+    .info-tile { background:var(--bg); box-shadow:inset 3px 3px 7px var(--sd),inset -3px -3px 7px var(--sl); border-radius:10px; padding:10px 14px; text-align:center; }
+  </style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+<aside class="sidebar" aria-label="Main navigation">
+  <div class="flex items-center gap-3 mb-9 px-1">
+    <div style="width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#7BAEFF,#4B89DC);display:flex;align-items:center;justify-content:center;box-shadow:5px 5px 12px rgba(75,137,220,.4),-3px -3px 8px rgba(255,255,255,.7);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </div>
+    <div><h2 style="font-size:18px;font-weight:700;color:var(--txt);letter-spacing:-.3px;">Dashify</h2><p style="font-size:11px;color:var(--muted);">Analytics Suite</p></div>
+  </div>
+  <nav style="flex:1;">
+    <p class="px-3 mb-2" style="font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:1.3px;text-transform:uppercase;">Main</p>
+    <a class="nav-item" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Overview</a>
+    <a class="nav-item" href="analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Analytics</a>
+    <a class="nav-item" href="revenue.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Revenue</a>
+    <a class="nav-item" href="projects.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>Projects<span style="margin-left:auto;background:linear-gradient(135deg,#7BAEFF,#4B89DC);color:#fff;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:20px;">12</span></a>
+    <a class="nav-item active" href="clients.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Clients</a>
+    <p class="px-3 mt-5 mb-2" style="font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:1.3px;text-transform:uppercase;">System</p>
+    <a class="nav-item" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Messages<span style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--accent-orange);display:inline-block;"></span></a>
+    <a class="nav-item" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</a>
+  </nav>
+  <div class="neu-raise-sm flex items-center gap-3 p-3 mt-4" style="cursor:pointer;">
+    <div style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#C97BFF,#9C42F5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;flex-shrink:0;">S</div>
+    <div style="min-width:0;flex:1;"><p style="font-size:13px;font-weight:700;color:var(--txt);">Sabbir Hassan</p><p style="font-size:11px;color:var(--muted);">UI / UX Designer</p></div>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+  </div>
+</aside>
+
+<!-- ── MAIN ─────────────────────────────────────────────────── -->
+<main style="margin-left:256px;padding:28px 30px;">
+
+  <header class="flex items-center justify-between mb-7">
+    <div>
+      <h1 style="font-size:25px;color:var(--txt);letter-spacing:-.4px;">Clients</h1>
+      <p style="font-size:13.5px;color:var(--muted);margin-top:3px;">Manage client relationships and project history.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <div style="position:relative;">
+        <svg style="position:absolute;left:13px;top:50%;transform:translateY(-50%);width:15px;height:15px;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="neu-input" type="search" placeholder="Search clients…" style="width:220px;" aria-label="Search clients"/>
+      </div>
+      <button class="neu-btn flex items-center gap-2" style="padding:10px 20px;font-size:13.5px;font-weight:700;color:var(--accent-blue);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Client
+      </button>
+    </div>
+  </header>
+
+  <!-- Summary tiles -->
+  <section style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px;">
+    <div class="neu-raise" style="padding:20px;text-align:center;">
+      <p style="font-size:28px;font-weight:700;color:var(--txt);letter-spacing:-.5px;">138</p>
+      <p style="font-size:12.5px;color:var(--muted);font-weight:600;margin-top:4px;">Total Clients</p>
+    </div>
+    <div class="neu-raise" style="padding:20px;text-align:center;">
+      <p style="font-size:28px;font-weight:700;color:var(--accent-green);letter-spacing:-.5px;">87</p>
+      <p style="font-size:12.5px;color:var(--muted);font-weight:600;margin-top:4px;">Active This Month</p>
+    </div>
+    <div class="neu-raise" style="padding:20px;text-align:center;">
+      <p style="font-size:28px;font-weight:700;color:var(--accent-blue);letter-spacing:-.5px;">8</p>
+      <p style="font-size:12.5px;color:var(--muted);font-weight:600;margin-top:4px;">New This Month</p>
+    </div>
+    <div class="neu-raise" style="padding:20px;text-align:center;">
+      <p style="font-size:28px;font-weight:700;color:var(--accent-purple);letter-spacing:-.5px;">$350</p>
+      <p style="font-size:12.5px;color:var(--muted);font-weight:600;margin-top:4px;">Avg. Project Value</p>
+    </div>
+  </section>
+
+  <!-- Client cards -->
+  <section style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding-bottom:30px;" aria-label="Client list">
+
+    <!-- Client 1 -->
+    <article class="client-card">
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#7BAEFF,#4B89DC);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:4px 4px 10px rgba(75,137,220,.35),-2px -2px 6px rgba(255,255,255,.7);">S</div>
+          <div>
+            <h3 style="font-size:15px;font-weight:700;color:var(--txt);">Sarah Mitchell</h3>
+            <p style="font-size:12.5px;color:var(--muted);">TechCorp Inc.</p>
+          </div>
+        </div>
+        <span class="badge" style="color:var(--accent-green);background:rgba(46,192,155,.13);">Active</span>
+      </div>
+      <div class="flex items-center gap-2 mb-4" style="color:var(--muted);font-size:12.5px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        sarah@techcorp.com
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">3</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Projects</p></div>
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">$32.8k</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Total Value</p></div>
+      </div>
+      <button class="neu-btn" style="width:100%;padding:10px;font-size:13px;font-weight:700;color:var(--accent-blue);">View Profile</button>
+    </article>
+
+    <!-- Client 2 -->
+    <article class="client-card">
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#6EFACC,#2EC09B);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:4px 4px 10px rgba(46,192,155,.35),-2px -2px 6px rgba(255,255,255,.7);">J</div>
+          <div>
+            <h3 style="font-size:15px;font-weight:700;color:var(--txt);">James Rodriguez</h3>
+            <p style="font-size:12.5px;color:var(--muted);">StartupXYZ</p>
+          </div>
+        </div>
+        <span class="badge" style="color:var(--accent-green);background:rgba(46,192,155,.13);">Active</span>
+      </div>
+      <div class="flex items-center gap-2 mb-4" style="color:var(--muted);font-size:12.5px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        james@startupxyz.com
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">2</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Projects</p></div>
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">$18.2k</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Total Value</p></div>
+      </div>
+      <button class="neu-btn" style="width:100%;padding:10px;font-size:13px;font-weight:700;color:var(--accent-blue);">View Profile</button>
+    </article>
+
+    <!-- Client 3 -->
+    <article class="client-card">
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#C97BFF,#9C42F5);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:4px 4px 10px rgba(156,66,245,.35),-2px -2px 6px rgba(255,255,255,.7);">E</div>
+          <div>
+            <h3 style="font-size:15px;font-weight:700;color:var(--txt);">Emily Chen</h3>
+            <p style="font-size:12.5px;color:var(--muted);">NovaBrand Co.</p>
+          </div>
+        </div>
+        <span class="badge" style="color:var(--accent-green);background:rgba(46,192,155,.13);">Active</span>
+      </div>
+      <div class="flex items-center gap-2 mb-4" style="color:var(--muted);font-size:12.5px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        emily@novabrand.com
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">4</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Projects</p></div>
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">$28.5k</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Total Value</p></div>
+      </div>
+      <button class="neu-btn" style="width:100%;padding:10px;font-size:13px;font-weight:700;color:var(--accent-blue);">View Profile</button>
+    </article>
+
+    <!-- Client 4 -->
+    <article class="client-card">
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#FFC97A,#F4834B);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:4px 4px 10px rgba(244,131,75,.35),-2px -2px 6px rgba(255,255,255,.7);">A</div>
+          <div>
+            <h3 style="font-size:15px;font-weight:700;color:var(--txt);">Alex Thompson</h3>
+            <p style="font-size:12.5px;color:var(--muted);">CloudBase Ltd.</p>
+          </div>
+        </div>
+        <span class="badge" style="color:var(--accent-blue);background:rgba(75,137,220,.13);">New</span>
+      </div>
+      <div class="flex items-center gap-2 mb-4" style="color:var(--muted);font-size:12.5px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        alex@cloudbase.io
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">1</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Projects</p></div>
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">$4.5k</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Total Value</p></div>
+      </div>
+      <button class="neu-btn" style="width:100%;padding:10px;font-size:13px;font-weight:700;color:var(--accent-blue);">View Profile</button>
+    </article>
+
+    <!-- Client 5 -->
+    <article class="client-card">
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#B8C8E0,#7B8BA0);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:4px 4px 10px rgba(123,139,160,.35),-2px -2px 6px rgba(255,255,255,.7);">M</div>
+          <div>
+            <h3 style="font-size:15px;font-weight:700;color:var(--txt);">Maria Santos</h3>
+            <p style="font-size:12.5px;color:var(--muted);">FinFlow App</p>
+          </div>
+        </div>
+        <span class="badge" style="color:var(--muted);background:rgba(107,122,141,.1);">On Hold</span>
+      </div>
+      <div class="flex items-center gap-2 mb-4" style="color:var(--muted);font-size:12.5px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        maria@finflow.io
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">2</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Projects</p></div>
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">$12.4k</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Total Value</p></div>
+      </div>
+      <button class="neu-btn" style="width:100%;padding:10px;font-size:13px;font-weight:700;color:var(--accent-blue);">View Profile</button>
+    </article>
+
+    <!-- Client 6 -->
+    <article class="client-card">
+      <div class="flex items-start justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div style="width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#87CEEB,#4B89DC);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:4px 4px 10px rgba(75,137,220,.35),-2px -2px 6px rgba(255,255,255,.7);">D</div>
+          <div>
+            <h3 style="font-size:15px;font-weight:700;color:var(--txt);">David Kim</h3>
+            <p style="font-size:12.5px;color:var(--muted);">Orbit Labs</p>
+          </div>
+        </div>
+        <span class="badge" style="color:var(--accent-green);background:rgba(46,192,155,.13);">Active</span>
+      </div>
+      <div class="flex items-center gap-2 mb-4" style="color:var(--muted);font-size:12.5px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        david@orbitlabs.com
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">3</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Projects</p></div>
+        <div class="info-tile"><p style="font-size:17px;font-weight:700;color:var(--txt);">$22.1k</p><p style="font-size:11px;color:var(--muted);margin-top:2px;">Total Value</p></div>
+      </div>
+      <button class="neu-btn" style="width:100%;padding:10px;font-size:13px;font-weight:700;color:var(--accent-blue);">View Profile</button>
+    </article>
+
+  </section>
+</main>
+</body>
+</html>

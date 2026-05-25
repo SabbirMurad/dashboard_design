@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashify — Messages</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800&family=Varela+Round&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="shared.css"/>
+  <style>
+    .msg-layout { display:flex; gap:20px; height:calc(100vh - 130px); }
+    /* Conversation list */
+    .convo-list { width:292px; flex-shrink:0; background:var(--bg); box-shadow:6px 6px 18px var(--sd),-6px -6px 18px var(--sl); border-radius:16px; display:flex; flex-direction:column; overflow:hidden; }
+    .convo-search { padding:16px 16px 12px; flex-shrink:0; }
+    .convo-items { flex:1; overflow-y:auto; padding:6px 10px 10px; }
+    .convo-item { display:flex; align-items:center; gap:12px; padding:12px 10px; border-radius:12px; cursor:pointer; transition:all .2s ease; }
+    .convo-item:hover { box-shadow:inset 3px 3px 8px var(--sd),inset -3px -3px 8px var(--sl); }
+    .convo-item.active { box-shadow:inset 4px 4px 10px var(--sd),inset -4px -4px 10px var(--sl); }
+    /* Chat area */
+    .chat-area { flex:1; background:var(--bg); box-shadow:6px 6px 18px var(--sd),-6px -6px 18px var(--sl); border-radius:16px; display:flex; flex-direction:column; overflow:hidden; }
+    .chat-header { padding:18px 22px; flex-shrink:0; border-bottom:1px solid rgba(163,177,198,.2); }
+    .chat-msgs { flex:1; overflow-y:auto; padding:22px; display:flex; flex-direction:column; gap:14px; }
+    /* Bubble - received (raised) */
+    .bubble-recv { background:var(--bg); box-shadow:4px 4px 12px var(--sd),-4px -4px 12px var(--sl); border-radius:16px 16px 16px 4px; padding:12px 16px; max-width:62%; align-self:flex-start; font-size:14px; color:var(--txt); line-height:1.55; }
+    /* Bubble - sent (inset) */
+    .bubble-sent { background:var(--bg); box-shadow:inset 3px 3px 8px var(--sd),inset -3px -3px 8px var(--sl); border-radius:16px 16px 4px 16px; padding:12px 16px; max-width:62%; align-self:flex-end; font-size:14px; color:var(--txt); line-height:1.55; }
+    .chat-input-area { padding:16px 20px; flex-shrink:0; border-top:1px solid rgba(163,177,198,.2); }
+    .msg-input { background:var(--bg); box-shadow:inset 3px 3px 8px var(--sd),inset -3px -3px 8px var(--sl); border:none; border-radius:12px; padding:12px 50px 12px 16px; font-family:'Nunito Sans',sans-serif; font-size:14px; color:var(--txt); outline:none; width:100%; resize:none; }
+    .msg-input::placeholder { color:var(--muted); }
+    .msg-input:focus { box-shadow:inset 4px 4px 10px var(--sd),inset -4px -4px 10px var(--sl),0 0 0 2px rgba(75,137,220,.3); }
+    .send-btn { width:38px; height:38px; border-radius:11px; background:linear-gradient(135deg,#7BAEFF,#4B89DC); display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:3px 3px 8px rgba(75,137,220,.4),-2px -2px 6px rgba(255,255,255,.7); transition:all .15s ease; border:none; flex-shrink:0; }
+    .send-btn:hover { box-shadow:2px 2px 5px rgba(75,137,220,.4); }
+    .send-btn:active { box-shadow:inset 2px 2px 5px rgba(75,137,220,.5); transform:scale(.96); }
+  </style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+<aside class="sidebar" aria-label="Main navigation">
+  <div class="flex items-center gap-3 mb-9 px-1">
+    <div style="width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#7BAEFF,#4B89DC);display:flex;align-items:center;justify-content:center;box-shadow:5px 5px 12px rgba(75,137,220,.4),-3px -3px 8px rgba(255,255,255,.7);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </div>
+    <div><h2 style="font-size:18px;font-weight:700;color:var(--txt);letter-spacing:-.3px;">Dashify</h2><p style="font-size:11px;color:var(--muted);">Analytics Suite</p></div>
+  </div>
+  <nav style="flex:1;">
+    <p class="px-3 mb-2" style="font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:1.3px;text-transform:uppercase;">Main</p>
+    <a class="nav-item" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Overview</a>
+    <a class="nav-item" href="analytics.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Analytics</a>
+    <a class="nav-item" href="revenue.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Revenue</a>
+    <a class="nav-item" href="projects.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>Projects<span style="margin-left:auto;background:linear-gradient(135deg,#7BAEFF,#4B89DC);color:#fff;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:20px;">12</span></a>
+    <a class="nav-item" href="clients.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Clients</a>
+    <p class="px-3 mt-5 mb-2" style="font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:1.3px;text-transform:uppercase;">System</p>
+    <a class="nav-item active" href="messages.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Messages<span style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--accent-orange);display:inline-block;"></span></a>
+    <a class="nav-item" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Settings</a>
+  </nav>
+  <div class="neu-raise-sm flex items-center gap-3 p-3 mt-4" style="cursor:pointer;">
+    <div style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#C97BFF,#9C42F5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;flex-shrink:0;">S</div>
+    <div style="min-width:0;flex:1;"><p style="font-size:13px;font-weight:700;color:var(--txt);">Sabbir Hassan</p><p style="font-size:11px;color:var(--muted);">UI / UX Designer</p></div>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+  </div>
+</aside>
+
+<!-- ── MAIN ─────────────────────────────────────────────────── -->
+<main style="margin-left:256px;padding:28px 30px 20px;">
+
+  <header class="flex items-center justify-between mb-6">
+    <div>
+      <h1 style="font-size:25px;color:var(--txt);letter-spacing:-.4px;">Messages</h1>
+      <p style="font-size:13.5px;color:var(--muted);margin-top:3px;">2 unread conversations</p>
+    </div>
+    <button class="neu-btn flex items-center gap-2" style="padding:10px 20px;font-size:13.5px;font-weight:700;color:var(--accent-blue);">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New Message
+    </button>
+  </header>
+
+  <!-- Messages layout -->
+  <div class="msg-layout" role="main">
+
+    <!-- Conversation list -->
+    <aside class="convo-list" aria-label="Conversations">
+      <div class="convo-search">
+        <div style="position:relative;">
+          <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:14px;height:14px;" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="neu-input" type="search" placeholder="Search messages…" style="width:100%;padding-left:36px;font-size:13px;" aria-label="Search conversations"/>
+        </div>
+      </div>
+      <div class="convo-items" role="list">
+
+        <!-- Sarah (active, unread) -->
+        <div class="convo-item active" role="listitem" aria-current="true">
+          <div style="position:relative;flex-shrink:0;">
+            <div style="width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#7BAEFF,#4B89DC);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;">S</div>
+            <span style="width:11px;height:11px;border-radius:50%;background:var(--accent-green);position:absolute;bottom:0;right:0;border:2px solid var(--bg);"></span>
+          </div>
+          <div style="min-width:0;flex:1;">
+            <div class="flex items-center justify-between mb-1">
+              <span style="font-size:13.5px;font-weight:700;color:var(--txt);">Sarah Mitchell</span>
+              <span style="font-size:11.5px;color:var(--muted);">2:30 PM</span>
+            </div>
+            <p style="font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Can you send the source files?</p>
+          </div>
+          <span style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#7BAEFF,#4B89DC);color:#fff;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</span>
+        </div>
+
+        <!-- James -->
+        <div class="convo-item" role="listitem">
+          <div style="position:relative;flex-shrink:0;">
+            <div style="width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#6EFACC,#2EC09B);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;">J</div>
+            <span style="width:11px;height:11px;border-radius:50%;background:var(--accent-green);position:absolute;bottom:0;right:0;border:2px solid var(--bg);"></span>
+          </div>
+          <div style="min-width:0;flex:1;">
+            <div class="flex items-center justify-between mb-1">
+              <span style="font-size:13.5px;font-weight:700;color:var(--txt);">James Rodriguez</span>
+              <span style="font-size:11.5px;color:var(--muted);">11:15 AM</span>
+            </div>
+            <p style="font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">The designs look fantastic!</p>
+          </div>
+        </div>
+
+        <!-- Emily -->
+        <div class="convo-item" role="listitem">
+          <div style="position:relative;flex-shrink:0;">
+            <div style="width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#C97BFF,#9C42F5);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;">E</div>
+          </div>
+          <div style="min-width:0;flex:1;">
+            <div class="flex items-center justify-between mb-1">
+              <span style="font-size:13.5px;font-weight:700;color:var(--txt);">Emily Chen</span>
+              <span style="font-size:11.5px;color:var(--muted);">Yesterday</span>
+            </div>
+            <p style="font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Logo variations are ready!</p>
+          </div>
+        </div>
+
+        <!-- Alex -->
+        <div class="convo-item" role="listitem">
+          <div style="position:relative;flex-shrink:0;">
+            <div style="width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#FFC97A,#F4834B);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;">A</div>
+          </div>
+          <div style="min-width:0;flex:1;">
+            <div class="flex items-center justify-between mb-1">
+              <span style="font-size:13.5px;font-weight:700;color:var(--txt);">Alex Thompson</span>
+              <span style="font-size:11.5px;color:var(--muted);">Mon</span>
+            </div>
+            <p style="font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Invoice received, thanks!</p>
+          </div>
+        </div>
+
+        <!-- Maria -->
+        <div class="convo-item" role="listitem">
+          <div style="position:relative;flex-shrink:0;">
+            <div style="width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#B8C8E0,#7B8BA0);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;">M</div>
+          </div>
+          <div style="min-width:0;flex:1;">
+            <div class="flex items-center justify-between mb-1">
+              <span style="font-size:13.5px;font-weight:700;color:var(--txt);">Maria Santos</span>
+              <span style="font-size:11.5px;color:var(--muted);">Sun</span>
+            </div>
+            <p style="font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Project paused for now...</p>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- Chat area -->
+    <section class="chat-area" aria-label="Chat with Sarah Mitchell">
+
+      <!-- Chat header -->
+      <div class="chat-header flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div style="position:relative;">
+            <div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#7BAEFF,#4B89DC);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;box-shadow:3px 3px 8px rgba(75,137,220,.3),-2px -2px 6px rgba(255,255,255,.7);">S</div>
+            <span style="width:11px;height:11px;border-radius:50%;background:var(--accent-green);position:absolute;bottom:0;right:0;border:2px solid var(--bg);"></span>
+          </div>
+          <div>
+            <h3 style="font-size:15.5px;font-weight:700;color:var(--txt);">Sarah Mitchell</h3>
+            <p style="font-size:12px;color:var(--accent-green);font-weight:600;">Online · TechCorp Inc.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="neu-btn" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;" aria-label="Voice call">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012.81 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.72 6.72l1.21-1.21a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </button>
+          <button class="neu-btn" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;" aria-label="More options">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="chat-msgs" id="chatMsgs" aria-live="polite" aria-label="Conversation">
+        <div style="text-align:center;margin:8px 0;"><span style="font-size:11.5px;color:var(--muted);background:var(--bg);padding:4px 14px;border-radius:20px;box-shadow:2px 2px 6px var(--sd),-2px -2px 6px var(--sl);">Today</span></div>
+
+        <!-- Received -->
+        <div style="display:flex;align-items:flex-end;gap:10px;">
+          <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#7BAEFF,#4B89DC);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;">S</div>
+          <div>
+            <div class="bubble-recv">Hi Sabbir! Can we schedule a call to discuss the latest revisions on the e-commerce project?</div>
+            <p style="font-size:11px;color:var(--muted);margin-top:5px;padding-left:4px;">1:45 PM</p>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:flex-end;gap:10px;">
+          <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#7BAEFF,#4B89DC);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;">S</div>
+          <div>
+            <div class="bubble-recv">Also, the latest mockups look absolutely amazing by the way!</div>
+            <p style="font-size:11px;color:var(--muted);margin-top:5px;padding-left:4px;">1:46 PM</p>
+          </div>
+        </div>
+
+        <!-- Sent -->
+        <div style="display:flex;align-items:flex-end;gap:10px;justify-content:flex-end;">
+          <div>
+            <div class="bubble-sent">Thanks Sarah! Really happy with how it turned out. I'm free tomorrow afternoon, say 3 PM?</div>
+            <p style="font-size:11px;color:var(--muted);margin-top:5px;padding-right:4px;text-align:right;">2:02 PM</p>
+          </div>
+          <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#C97BFF,#9C42F5);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;">S</div>
+        </div>
+
+        <!-- Received -->
+        <div style="display:flex;align-items:flex-end;gap:10px;">
+          <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#7BAEFF,#4B89DC);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;">S</div>
+          <div>
+            <div class="bubble-recv">3 PM works perfectly! Should we do a Zoom call?</div>
+            <p style="font-size:11px;color:var(--muted);margin-top:5px;padding-left:4px;">2:10 PM</p>
+          </div>
+        </div>
+
+        <!-- Sent -->
+        <div style="display:flex;align-items:flex-end;gap:10px;justify-content:flex-end;">
+          <div>
+            <div class="bubble-sent">Sure! I'll send you the Zoom link shortly. See you tomorrow!</div>
+            <p style="font-size:11px;color:var(--muted);margin-top:5px;padding-right:4px;text-align:right;">2:14 PM</p>
+          </div>
+          <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#C97BFF,#9C42F5);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;">S</div>
+        </div>
+
+        <!-- Received unread -->
+        <div style="display:flex;align-items:flex-end;gap:10px;">
+          <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#7BAEFF,#4B89DC);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;">S</div>
+          <div>
+            <div class="bubble-recv" style="border-left:3px solid var(--accent-blue);">Also, could you send over the Figma source files before the call? It would help me review the components ahead of time.</div>
+            <p style="font-size:11px;color:var(--accent-blue);margin-top:5px;padding-left:4px;font-weight:700;">2:30 PM · Unread</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div class="chat-input-area">
+        <div class="flex items-center gap-3">
+          <button class="neu-btn" style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;flex-shrink:0;" aria-label="Attach file">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+          </button>
+          <div style="position:relative;flex:1;">
+            <textarea class="msg-input" rows="1" placeholder="Type a message…" aria-label="Message input" id="msgInput"></textarea>
+          </div>
+          <button class="send-btn" aria-label="Send message" onclick="sendMsg()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</main>
+
+<script>
+  // Conversation click interaction
+  document.querySelectorAll('.convo-item').forEach(item=>{
+    item.addEventListener('click',()=>{
+      document.querySelectorAll('.convo-item').forEach(i=>i.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
+
+  // Simple send message
+  function sendMsg(){
+    const input = document.getElementById('msgInput');
+    const text = input.value.trim();
+    if(!text) return;
+    const msgs = document.getElementById('chatMsgs');
+    const now = new Date(); const time = now.getHours()+':'+(now.getMinutes()+'').padStart(2,'0');
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:flex-end;gap:10px;justify-content:flex-end;';
+    div.innerHTML = `<div><div class="bubble-sent">${text}</div><p style="font-size:11px;color:var(--muted);margin-top:5px;padding-right:4px;text-align:right;">${time}</p></div><div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#C97BFF,#9C42F5);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;">S</div>`;
+    msgs.appendChild(div);
+    input.value = '';
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  document.getElementById('msgInput').addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} });
+  // scroll to bottom
+  const msgs = document.getElementById('chatMsgs'); msgs.scrollTop = msgs.scrollHeight;
+</script>
+</body>
+</html>
